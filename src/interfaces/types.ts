@@ -10,11 +10,4 @@ type Provider = {};
 // Data Transfer Object
 type DTO = {};
 
-// Um UseCase deve ter *pelo menos um* Repositório
-interface IUseCaseConstructor {
-  new (repository: Repository[], ...provider: Provider[]): IUseCase;
-}
-
-interface IUseCase {
-  execute(data: DTO): Promise<DTO>;
-}
+export { Entity, Repository, Provider, DTO };
