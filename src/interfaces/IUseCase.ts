@@ -1,8 +1,8 @@
-import IDatabase from "./IDatabase";
+import IDatabaseNoSQL from "./IDatabaseNoSQLNoSQL";
 import { DTO } from "./types";
 
 export interface IUseCaseConstructor {
-  new (database: IDatabase): IUseCase;
+  new (database: IDatabaseNoSQL): IUseCase;
 }
 
 export interface IUseCase {
@@ -14,7 +14,7 @@ export interface IUseCase {
 // Para implementar a um UseCase é necessario uma função que o produz, assim a tipagem fica abstrada baseada na interface
 export default function createUseCase(
   UseCase: IUseCaseConstructor,
-  database: IDatabase
+  database: IDatabaseNoSQL
 ): IUseCase {
   return new UseCase(database);
 }
