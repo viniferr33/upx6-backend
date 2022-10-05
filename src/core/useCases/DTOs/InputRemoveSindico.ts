@@ -1,4 +1,4 @@
 export default interface RemoveSindicoInput {
-  condominioId: string;
-  sindicoId: string;
+  condominioId: String;
+  sindicoId: String;
 }

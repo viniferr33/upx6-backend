@@ -1,4 +1,4 @@
 export default interface CreateCondominioInput {
-  name: string;
-  sindicos: Array<string>;
+  name: String;
+  sindicos: Array<String>;
 }

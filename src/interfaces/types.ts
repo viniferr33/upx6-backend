@@ -1,5 +1,17 @@
 import CreateUserInput from "../core/useCases/DTOs/InputCreateUser";
 import DefaultOperationOutput from "../core/useCases/DTOs/DefaultOperationStatus";
+import AddSindicoInput from "../core/useCases/DTOs/InputAddSindico";
+import CreateCondominioInput from "../core/useCases/DTOs/InputCreateCondominio";
+import DeleteCondominioInput from "../core/useCases/DTOs/InputDeleteCondominio";
+import DeleteUserInput from "../core/useCases/DTOs/InputDeleteUser";
+import LoginInput from "../core/useCases/DTOs/InputLogin";
+import RemoveSindicoInput from "../core/useCases/DTOs/InputRemoveSindico";
+import UpdateCondominioInput from "../core/useCases/DTOs/InputUpdateCondominio";
+import UpdateUserInput from "../core/useCases/DTOs/InputUpdateUser";
+import None from "../core/useCases/DTOs/None";
+import LoginOutput from "../core/useCases/DTOs/OutputLogin";
+import ListUserOutput from "../core/useCases/DTOs/OutputListUser";
+import ListCondominiosOutput from "../core/useCases/DTOs/OutputListCondominios";
 
 import User from "../core/entities/User";
 import Condominio from "../core/entities/Condominio";
@@ -14,6 +26,20 @@ type Repository = {};
 type Provider = {};
 
 // Data Transfer Object
-type DTO = CreateUserInput | DefaultOperationOutput;
+type DTO =
+  | CreateUserInput
+  | DefaultOperationOutput
+  | AddSindicoInput
+  | CreateCondominioInput
+  | DeleteCondominioInput
+  | DeleteUserInput
+  | LoginInput
+  | RemoveSindicoInput
+  | UpdateCondominioInput
+  | UpdateUserInput
+  | None
+  | ListCondominiosOutput
+  | ListUserOutput
+  | LoginOutput;
 
 export { Entity, Repository, Provider, DTO };

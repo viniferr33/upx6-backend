@@ -1,3 +1,3 @@
 export default interface DeleteCondominioInput {
-  id: string;
+  id: String;
 }

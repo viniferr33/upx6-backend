@@ -1,5 +1,5 @@
 export default interface UpdateCondominioInput {
-  id: string;
-  name: string;
-  sindicos: Array<string>;
+  id: String;
+  name: String;
+  sindicos: Array<String>;
 }

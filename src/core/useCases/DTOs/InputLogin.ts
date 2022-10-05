@@ -1,3 +1,3 @@
 export default interface LoginInput {
-  identityToken: string;
+  identityToken: String;
 }

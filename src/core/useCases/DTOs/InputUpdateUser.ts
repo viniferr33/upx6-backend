@@ -1,6 +1,6 @@
 export default interface UpdateUserInput {
-  id: string;
-  userName: string;
-  avatarUrl: string;
-  principals: Array<string>;
+  id: String;
+  userName: String;
+  avatarUrl: String;
+  principals: Array<String>;
 }
