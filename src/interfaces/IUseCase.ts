@@ -1,4 +1,4 @@
-import IDatabaseNoSQL from "./IDatabaseNoSQLNoSQL";
+import IDatabaseNoSQL from "./IDatabaseNoSQL";
 import { DTO } from "./types";
 
 export interface IUseCaseConstructor {

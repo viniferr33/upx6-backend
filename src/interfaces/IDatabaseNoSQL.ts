@@ -1,18 +1,18 @@
 import { Entity } from "./types";
 
-interface Filter {
+export interface Filter {
   key: String;
   operator: String;
   value: String;
 }
 
-interface DocumentRef {
+export interface DocumentRef {
   id: String;
   docRef: String;
   data: Map<String, any>;
 }
 
-interface CollectionRef {
+export interface CollectionRef {
   id: String;
   colRef: String;
   documents?: Array<String>;
