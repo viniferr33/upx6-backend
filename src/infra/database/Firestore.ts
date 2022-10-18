@@ -43,9 +43,15 @@ export default class Firebase implements IDatabaseNoSQL {
     });
   }
 
-  deleteCollection(path: String): Promise<Boolean> {
+  deleteCollection(path: string): Promise<Boolean> {
     return new Promise(async (resolve, reject) => {
       try {
+        const allDocuments = await this.listDocuments(path);
+        await this.deleteDocumentBatch(
+          allDocuments.map((doc) => String(doc.id))
+        );
+
+        resolve(true);
       } catch (error) {
         reject(error);
       }
@@ -58,20 +64,39 @@ export default class Firebase implements IDatabaseNoSQL {
   }
 
   listCollections(
-    path: String,
+    path: string,
     filter?: Array<Filter>
   ): Promise<Array<CollectionRef>> {
     return new Promise(async (resolve, reject) => {
       try {
+        const collectionSnap = await this.service.doc(path).listCollections();
+        const collections: Array<CollectionRef> = [];
+        collectionSnap.forEach((collection) => {
+          collections.push({
+            id: collection.id,
+            colRef: path + "/" + collection.id,
+          });
+        });
+
+        if (filter) {
+        }
+
+        resolve(collections);
       } catch (error) {
         reject(error);
       }
     });
   }
 
-  getCollection(path: String): Promise<CollectionRef> {
+  getCollection(path: string): Promise<CollectionRef> {
     return new Promise(async (resolve, reject) => {
       try {
+        const collectionSnap = await this.service.collection(path).get();
+        resolve({
+          id: String(path.split("/").pop()),
+          colRef: path,
+          documents: collectionSnap.docs.map((docId) => String(docId)),
+        });
       } catch (error) {
         reject(error);
       }
@@ -79,10 +104,26 @@ export default class Firebase implements IDatabaseNoSQL {
   }
 
   getAllDocumentsFromCollection(
-    path: String,
+    path: string,
     filter?: Array<Filter>
   ): Promise<Array<DocumentRef>> {
-    return new Promise((resolve, reject) => {});
+    return new Promise(async (resolve, reject) => {
+      try {
+        const collectionSnap = await this.service.collection(path).get();
+        const allDocuments: Array<DocumentRef> = [];
+
+        collectionSnap.forEach((doc) =>
+          allDocuments.push({
+            id: doc.id,
+            docRef: path + "/" + doc.id,
+            data: doc.data(),
+          })
+        );
+        resolve(allDocuments);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   collectionExists(path: String): Promise<Boolean> {
@@ -95,9 +136,15 @@ export default class Firebase implements IDatabaseNoSQL {
     });
   }
 
-  createDocument(path: String, data: Entity): Promise<DocumentRef> {
+  createDocument(path: string, data: Entity): Promise<DocumentRef> {
     return new Promise(async (resolve, reject) => {
       try {
+        await this.service.doc(path).set(data);
+        resolve({
+          id: String(path.split("/").pop()),
+          docRef: path,
+          data: data,
+        });
       } catch (error) {
         reject(error);
       }
@@ -129,21 +176,25 @@ export default class Firebase implements IDatabaseNoSQL {
 
   listDocuments(
     path: string,
-    filter: Array<Filter>
+    filter?: Array<Filter>
   ): Promise<Array<DocumentRef>> {
     return new Promise(async (resolve, reject) => {
       try {
         const documentSnap = await this.service.collection(path).get();
-        const finalResult = [];
+        const finalResult: Array<DocumentRef> = [];
         documentSnap.forEach((doc) => {
           finalResult.push({
-            
-          })
-        })
+            id: doc.id,
+            docRef: path + "/" + doc.id,
+            data: doc.data(),
+          });
+        });
 
         if (filter) {
-          // TO DO: IMPLEMENT FILTERING  
+          // TO DO: IMPLEMENT FILTERING
         }
+
+        resolve(finalResult);
       } catch (error) {
         reject(error);
       }
@@ -176,6 +227,21 @@ export default class Firebase implements IDatabaseNoSQL {
 
         await batchExecutor.commit();
         resolve(writeResults);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  getDocument(path: string): Promise<DocumentRef> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const docRef = await this.service.doc(path).get();
+        resolve({
+          id: docRef.id,
+          docRef: path,
+          data: docRef.data(),
+        });
       } catch (error) {
         reject(error);
       }

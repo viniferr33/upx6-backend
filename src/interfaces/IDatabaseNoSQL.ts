@@ -9,7 +9,7 @@ export interface Filter {
 export interface DocumentRef {
   id: String;
   docRef: String;
-  data: Map<String, any>;
+  data: any;
 }
 
 export interface CollectionRef {
@@ -46,9 +46,10 @@ export default interface IDatabaseNoSQL {
   ): Promise<Map<String, Boolean>>;
   deleteDocument(path: String): Promise<Boolean>;
   deleteDocumentBatch(documents: Array<String>): Promise<Map<String, Boolean>>;
+  getDocument(path: string): Promise<DocumentRef>;
   listDocuments(
     path: String,
-    filter: Array<Filter>
+    filter?: Array<Filter>
   ): Promise<Array<DocumentRef>>;
   documentExists(path: String): Promise<Boolean>;
 }
