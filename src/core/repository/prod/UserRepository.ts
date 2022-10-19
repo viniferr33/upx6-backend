@@ -3,13 +3,11 @@ import IDatabaseNoSQL from "../../../interfaces/IDatabaseNoSQL";
 import User from "../../entities/User";
 
 export default class UserRepository implements IUserRepository {
-  stack: Array<Promise<any>>;
   noSqlDataBase: IDatabaseNoSQL;
 
   private defaultUserCollection: string;
 
   constructor(noSqlDataBase: IDatabaseNoSQL) {
-    this.stack = [];
     this.noSqlDataBase = noSqlDataBase;
 
     this.defaultUserCollection = "users";
@@ -43,33 +41,11 @@ export default class UserRepository implements IUserRepository {
     });
   }
 
-  save(user: User): void {
-    try {
-      const userPath = this.defaultUserCollection + "/" + user.id;
-      const operation = this.noSqlDataBase.createDocument(userPath, user);
-      this.stack.push(operation);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  update(user: User): void {
-    try {
-    } catch (error) {}
-  }
-
-  delete(user: User): void {
-    try {
-    } catch (error) {}
-  }
-
-  commit(): Promise<void> {
-    return new Promise((resolve, reject) => {
+  save(user: User): Promise<void> {
+    return new Promise(async (resolve, reject) => {
       try {
-        for (let i = this.stack.length; i > 0; i--) {
-          this.stack[i].then();
-          this.stack.splice(i, 1);
-        }
+        const userPath = this.defaultUserCollection + "/" + user.id;
+        await this.noSqlDataBase.createDocument(userPath, user);
         resolve();
       } catch (error) {
         reject(error);
@@ -77,8 +53,14 @@ export default class UserRepository implements IUserRepository {
     });
   }
 
-  cancel(): void {
-    try {
-    } catch (error) {}
+  delete(user: User): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userPath = this.defaultUserCollection + "/" + user.id;
+        await this.noSqlDataBase.deleteDocument(userPath);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 }
