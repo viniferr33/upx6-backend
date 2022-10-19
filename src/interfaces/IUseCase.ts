@@ -6,7 +6,6 @@ export interface IUseCaseConstructor {
 }
 
 export interface IUseCase {
-  setup(): void;
   execute(data: DTO): Promise<DTO>;
 }
 

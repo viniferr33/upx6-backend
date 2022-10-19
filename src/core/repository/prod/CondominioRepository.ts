@@ -52,7 +52,10 @@ export default class CondominioRepository implements ICondominioRepository {
       try {
         const condominioPath =
           this.defaultCondominioCollection + "/" + condominio.id;
-        await this.noSqlDataBase.createDocument(condominioPath, condominio);
+        await this.noSqlDataBase.createDocument(
+          condominioPath,
+          condominio.toObject()
+        );
         resolve();
       } catch (error) {
         reject(error);

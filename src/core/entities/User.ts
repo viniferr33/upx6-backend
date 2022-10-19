@@ -8,11 +8,20 @@ export default class User {
   public avatarUrl: String;
   public principals: Array<String>;
 
-  constructor(props: Omit<User, "id">, id?: String) {
+  constructor(props: Omit<User, "id" | "toObject">, id?: String) {
     Object.assign(this, props);
 
     if (!id) {
       this.id = uuid();
     }
+  }
+
+  toObject(): Object {
+    return {
+      name: this.name,
+      email: this.email,
+      avatarUrl: this.avatarUrl,
+      principals: this.principals,
+    };
   }
 }

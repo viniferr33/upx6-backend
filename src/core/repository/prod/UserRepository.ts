@@ -45,7 +45,7 @@ export default class UserRepository implements IUserRepository {
     return new Promise(async (resolve, reject) => {
       try {
         const userPath = this.defaultUserCollection + "/" + user.id;
-        await this.noSqlDataBase.createDocument(userPath, user);
+        await this.noSqlDataBase.createDocument(userPath, user.toObject());
         resolve();
       } catch (error) {
         reject(error);

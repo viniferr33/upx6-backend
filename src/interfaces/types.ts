@@ -17,7 +17,7 @@ import User from "../core/entities/User";
 import Condominio from "../core/entities/Condominio";
 
 // Tipagem de todas as Entidades Possiveis
-type Entity = User | Condominio;
+type Entity = User | Condominio | Object;
 
 // Tipagem de todos os Repositorios possiveis (interação com armazenamentos (banco de dados, storage, etc))
 type Repository = {};

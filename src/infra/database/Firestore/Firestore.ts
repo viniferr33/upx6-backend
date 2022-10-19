@@ -1,12 +1,12 @@
 import { initializeApp, applicationDefault } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import IDatabaseNoSQL from "../../interfaces/IDatabaseNoSQL";
+import IDatabaseNoSQL from "../../../interfaces/IDatabaseNoSQL";
 import {
   CollectionRef,
   Filter,
   DocumentRef,
-} from "../../interfaces/IDatabaseNoSQL";
-import { Entity } from "../../interfaces/types";
+} from "../../../interfaces/IDatabaseNoSQL";
+import { Entity } from "../../../interfaces/types";
 
 export default class Firebase implements IDatabaseNoSQL {
   private service;
