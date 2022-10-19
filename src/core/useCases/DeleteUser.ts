@@ -1,28 +1,25 @@
 import IDatabaseNoSQL from "../../interfaces/IDatabaseNoSQL";
 import { IUseCase } from "../../interfaces/IUseCase";
-import CreateUserInput from "./DTOs/InputCreateUser";
+import DeleteUserInput from "./DTOs/InputDeleteUser";
 import DefaultOperationOutput from "./DTOs/DefaultOperationStatus";
 import IUserRepository from "../repository/IUserRepository";
 import UserRepository from "../repository/prod/UserRepository";
-import User from "../entities/User";
 
-export default class CreateUser implements IUseCase {
+export default class DeleteUser implements IUseCase {
   private userRepository: IUserRepository;
 
   constructor(private database: IDatabaseNoSQL) {
     this.userRepository = new UserRepository(database);
   }
 
-  execute(data: CreateUserInput): Promise<DefaultOperationOutput> {
+  execute(data: DeleteUserInput): Promise<DefaultOperationOutput> {
     return new Promise(async (resolve) => {
       try {
-        const allUsers = await this.userRepository.list();
-        const exists = allUsers.find((user) => user.email === data.email);
+        const user = await this.userRepository.findById(data.id);
+        if (!user) throw new Error("User do not exists!");
 
-        if (exists) throw new Error("User already exists!");
-        await this.userRepository.save(new User(data));
-
-        resolve({ failed: false, message: "User created!" });
+        await this.userRepository.delete(user);
+        resolve({ failed: false, message: "User deleted!" });
       } catch (error) {
         const err = new Error(String(error));
         resolve({ failed: true, message: err.message, stackTrace: err.stack });

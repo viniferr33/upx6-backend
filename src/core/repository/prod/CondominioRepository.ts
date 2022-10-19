@@ -12,15 +12,17 @@ export default class CondominioRepository implements ICondominioRepository {
     this.defaultCondominioCollection = "condominios";
   }
 
-  findById(id: string): Promise<Condominio | undefined> {
+  findById(id: string): Promise<Condominio | void> {
     return new Promise(async (resolve, reject) => {
       try {
         const condominioDocRef = this.defaultCondominioCollection + "/" + id;
         const condominio = await this.noSqlDataBase.getDocument(
           condominioDocRef
         );
-        if (condominio) {
+        if (condominio.data) {
           resolve(new Condominio(condominio.data, condominio.id));
+        } else {
+          resolve();
         }
       } catch (error) {
         reject(error);

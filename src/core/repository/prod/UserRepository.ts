@@ -13,13 +13,15 @@ export default class UserRepository implements IUserRepository {
     this.defaultUserCollection = "users";
   }
 
-  findById(id: string): Promise<User | undefined> {
+  findById(id: string): Promise<User | void> {
     return new Promise(async (resolve, reject) => {
       try {
         const userDocRef = this.defaultUserCollection + "/" + id;
         const user = await this.noSqlDataBase.getDocument(userDocRef);
-        if (user) {
+        if (user.data) {
           resolve(new User(user.data, user.id));
+        } else {
+          resolve();
         }
       } catch (error) {
         reject(error);
@@ -58,6 +60,7 @@ export default class UserRepository implements IUserRepository {
       try {
         const userPath = this.defaultUserCollection + "/" + user.id;
         await this.noSqlDataBase.deleteDocument(userPath);
+        resolve();
       } catch (error) {
         reject(error);
       }
