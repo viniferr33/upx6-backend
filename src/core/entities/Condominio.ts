@@ -11,6 +11,8 @@ export default class Condominio {
 
     if (!id) {
       this.id = uuid();
+    } else {
+      this.id = id;
     }
   }
 

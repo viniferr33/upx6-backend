@@ -10,9 +10,10 @@ export default class User {
 
   constructor(props: Omit<User, "id" | "toObject">, id?: String) {
     Object.assign(this, props);
-
     if (!id) {
       this.id = uuid();
+    } else {
+      this.id = id;
     }
   }
 

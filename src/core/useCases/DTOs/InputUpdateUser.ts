@@ -1,5 +1,5 @@
 export default interface UpdateUserInput {
-  id: String;
+  id: string;
   userName: String;
   avatarUrl: String;
   principals: Array<String>;
