@@ -4,7 +4,6 @@ import AddSindicoInput from "../core/useCases/DTOs/InputAddSindico";
 import CreateCondominioInput from "../core/useCases/DTOs/InputCreateCondominio";
 import DeleteCondominioInput from "../core/useCases/DTOs/InputDeleteCondominio";
 import DeleteUserInput from "../core/useCases/DTOs/InputDeleteUser";
-import LoginInput from "../core/useCases/DTOs/InputLogin";
 import RemoveSindicoInput from "../core/useCases/DTOs/InputRemoveSindico";
 import UpdateCondominioInput from "../core/useCases/DTOs/InputUpdateCondominio";
 import UpdateUserInput from "../core/useCases/DTOs/InputUpdateUser";
@@ -33,7 +32,6 @@ type DTO =
   | CreateCondominioInput
   | DeleteCondominioInput
   | DeleteUserInput
-  | LoginInput
   | RemoveSindicoInput
   | UpdateCondominioInput
   | UpdateUserInput

@@ -19,10 +19,10 @@ export default class CreateUser implements IUseCase {
         const allUsers = await this.userRepository.list();
         const exists = allUsers.find((user) => user.email === data.email);
 
-        if (exists) throw new Error("User already exists!");
+        if (exists) throw new Error("Usuario ja existe!");
         await this.userRepository.save(new User(data));
 
-        resolve({ failed: false, message: "User created!" });
+        resolve({ failed: false, message: "Usuario criado!" });
       } catch (error) {
         const err = new Error(String(error));
         resolve({ failed: true, message: err.message, stackTrace: err.stack });

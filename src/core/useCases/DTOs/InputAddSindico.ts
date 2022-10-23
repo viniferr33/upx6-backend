@@ -1,4 +1,4 @@
 export default interface AddSindicoInput {
-  condominioId: String;
-  sindicoId: String;
+  condominioId: string;
+  sindicoId: string;
 }
