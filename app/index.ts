@@ -1,7 +1,3 @@
-import Firebase from "../src/infra/database/Firestore/Firestore.test";
+import app from "./server";
 
-async function main() {
-
-}
-
-main();
+app.listen('8080', () => console.log("Server running on http://localhost:8080"));
