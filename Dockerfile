@@ -10,4 +10,6 @@ COPY . .
 
 RUN npm run build
 
+COPY src/infra/database/Firestore/serviceAccountKey.json dist/src/infra/database/Firestore/serviceAccountKey.json 
+
 CMD npm start
