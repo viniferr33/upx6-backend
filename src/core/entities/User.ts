@@ -9,7 +9,11 @@ export default class User {
   public principals: Array<String>;
 
   constructor(props: Omit<User, "id" | "toObject">, id?: String) {
-    Object.assign(this, props);
+    this.name = props.name;
+    this.email = props.email;
+    this.avatarUrl = props.avatarUrl;
+    this.principals = props.principals;
+
     if (!id) {
       this.id = uuid();
     } else {

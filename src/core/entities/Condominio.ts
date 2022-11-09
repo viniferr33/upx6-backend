@@ -7,8 +7,9 @@ export default class Condominio {
   public sindicos: Array<String>;
 
   constructor(props: Omit<Condominio, "id" | "toObject">, id?: String) {
-    Object.assign(this, props);
-
+    this.name = props.name;
+    this.sindicos = props.sindicos;
+    
     if (!id) {
       this.id = uuid();
     } else {
