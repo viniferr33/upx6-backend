@@ -10,6 +10,8 @@ import ListCondominioController from "./controllers/ListCondominio";
 import ListUserController from "./controllers/ListUsers";
 import RemoveSindicoController from "./controllers/RemoveSindico";
 import UpdateUserController from "./controllers/UpdateUser";
+import CreateRegisterController from "./controllers/CreateRegister";
+import ListRegistersByCondominioController from "./controllers/ListRegistersByCondominio";
 
 // infra setup
 const firestore = new Firebase();
@@ -25,6 +27,8 @@ const allControllers = [
   ListUserController,
   RemoveSindicoController,
   UpdateUserController,
+  CreateRegisterController,
+  ListRegistersByCondominioController,
 ];
 
 // Router setup
