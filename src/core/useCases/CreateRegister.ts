@@ -16,16 +16,10 @@ export default class CreateRegister implements IUseCase {
   execute(data: CreateRegisterInput): Promise<DefaultOperationOutput> {
     return new Promise(async (resolve) => {
       try {
-        const allRegisters = await this.registerRepository.list();
-        const exists = allRegisters.find(
-          (register) =>
-            register.date === data.date &&
-            register.condominio_id === data.condominio_id &&
-            register.inverter_id === data.inverter_id
+        await this.registerRepository.save(
+          data.condominio_id,
+          new Register(data)
         );
-
-        if (exists) throw new Error("Registro ja existe!");
-        await this.registerRepository.save(new Register(data));
 
         resolve({ failed: false, message: "Register Criado!" });
       } catch (error) {

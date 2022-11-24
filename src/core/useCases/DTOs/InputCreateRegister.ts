@@ -1,7 +1,7 @@
 export default interface CreateRegisterInput {
-  date: String;
-  inverter_id: String;
-  condominio_id: String;
+  date: string;
+  inverter_id: string;
+  condominio_id: string;
   avg_dc_voltage: Number;
   avg_dc_current: Number;
   avg_dc_input_power: Number;

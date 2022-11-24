@@ -18,12 +18,11 @@ export default class ListRegister implements IUseCase {
   ): Promise<ListRegistersByCondominioOutput | DefaultOperationOutput> {
     return new Promise(async (resolve) => {
       try {
-        const allRegisters = await this.registerRepository.list();
-        const finalRegisters = allRegisters.filter(
-          (register) => register.condominio_id === data.condominioId
+        const allRegisters = await this.registerRepository.list(
+          data.condominioId
         );
 
-        resolve({ data: finalRegisters });
+        resolve({ data: allRegisters });
       } catch (error) {
         const err = new Error(String(error));
         resolve({ failed: true, message: err.message, stackTrace: err.stack });

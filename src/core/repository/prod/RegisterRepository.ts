@@ -13,13 +13,11 @@ export default class RegisterRepository implements IRegisterRepository {
     this.defaultRegisterCollection = "registers";
   }
 
-  findById(id: string): Promise<Register | void> {
+  findById(condominio_id: string, id: string): Promise<Register | void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const registerDocRef = this.defaultRegisterCollection + "/" + id;
-        const register = await this.noSqlDataBase.getDocument(
-          registerDocRef
-        );
+        const registerDocRef = `condominios/${condominio_id}/${this.defaultRegisterCollection}/${id}`;
+        const register = await this.noSqlDataBase.getDocument(registerDocRef);
         if (register.data) {
           resolve(new Register(register.data, register.id));
         } else {
@@ -31,12 +29,12 @@ export default class RegisterRepository implements IRegisterRepository {
     });
   }
 
-  list(): Promise<Array<Register>> {
+  list(condominio_id: string): Promise<Array<Register>> {
     return new Promise(async (resolve, reject) => {
       try {
         const allRegisters =
           await this.noSqlDataBase.getAllDocumentsFromCollection(
-            this.defaultRegisterCollection
+            `condominios/${condominio_id}/${this.defaultRegisterCollection}`
           );
 
         resolve(
@@ -50,11 +48,10 @@ export default class RegisterRepository implements IRegisterRepository {
     });
   }
 
-  save(register: Register): Promise<void> {
+  save(condominio_id: string, register: Register): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const registerPath =
-          this.defaultRegisterCollection + "/" + register.id;
+        const registerPath = `condominios/${condominio_id}/${this.defaultRegisterCollection}/${register.id}`;
         await this.noSqlDataBase.createDocument(
           registerPath,
           register.toObject()
@@ -66,11 +63,10 @@ export default class RegisterRepository implements IRegisterRepository {
     });
   }
 
-  delete(register: Register): Promise<void> {
+  delete(condominio_id: string, register: Register): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const registerPath =
-          this.defaultRegisterCollection + "/" + register.id;
+        const registerPath = `condominios/${condominio_id}/${this.defaultRegisterCollection}/${register.id}`;
         await this.noSqlDataBase.deleteDocument(registerPath);
       } catch (error) {
         reject(error);

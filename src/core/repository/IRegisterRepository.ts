@@ -3,8 +3,8 @@ import IDatabaseNoSQL from "../../interfaces/IDatabaseNoSQL";
 
 export default interface IRegisterRepository {
   noSqlDataBase: IDatabaseNoSQL;
-  findById(id: string): Promise<Register | void>;
-  list(): Promise<Array<Register>>;
-  save(register: Register): Promise<void>;
-  delete(register: Register): Promise<void>;
+  findById(condominio_id: string, id: string): Promise<Register | void>;
+  list(condominio_id: string): Promise<Array<Register>>;
+  save(condominio_id: string, register: Register): Promise<void>;
+  delete(condominio_id: string, register: Register): Promise<void>;
 }
