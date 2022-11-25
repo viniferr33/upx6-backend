@@ -16,8 +16,8 @@ export default class ListRegistersByCondominioController
   }
 
   static handleRequest(req: Request): ListRegistersByCondominioInput {
-    const { condominioId } = req.body;
-    return { condominioId };
+    const { condominioId } = req.query;
+    return { condominioId: new String(condominioId) };
   }
 
   enable(database: IDatabaseNoSQL) {
