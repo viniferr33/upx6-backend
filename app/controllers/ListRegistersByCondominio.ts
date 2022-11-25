@@ -11,8 +11,8 @@ export default class ListRegistersByCondominioController
   public path: string;
 
   constructor(database: IDatabaseNoSQL) {
-    this.method = "post";
-    this.path = "/register/create";
+    this.method = "get";
+    this.path = "/register/list";
   }
 
   static handleRequest(req: Request): ListRegistersByCondominioInput {
