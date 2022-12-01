@@ -16,6 +16,12 @@ export default class CreateUser implements IUseCase {
   execute(data: CreateUserInput): Promise<DefaultOperationOutput> {
     return new Promise(async (resolve) => {
       try {
+        if (data.principals === "ADMIN" && data.createCode !== "ADMIN-COD")
+          throw new Error("Código invalido!");
+
+        if (data.principals === "SINDICO" && data.createCode !== "SINDICO-COD")
+          throw new Error("Código invalido!");
+
         const allUsers = await this.userRepository.list();
         const exists = allUsers.find((user) => user.email === data.email);
 

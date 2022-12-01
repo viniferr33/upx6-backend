@@ -14,8 +14,9 @@ export default class CreateUserController implements IController {
   }
 
   static handleRequest(req: Request): CreateUserInput {
-    const { name, email, avatarUrl, principals } = req.body;
-    return { name, email, avatarUrl, principals };
+    const { name, email, avatarUrl, principals, password, createCode } =
+      req.body;
+    return { name, email, avatarUrl, principals, password, createCode };
   }
 
   enable(database: IDatabaseNoSQL) {

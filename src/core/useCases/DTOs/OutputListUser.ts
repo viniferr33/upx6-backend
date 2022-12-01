@@ -3,7 +3,8 @@ interface User {
   name: String;
   email: String;
   avatarUrl: String;
-  principals: Array<String>;
+  principals: String;
+  password: String;
 }
 
 export default interface ListUserOutput {
