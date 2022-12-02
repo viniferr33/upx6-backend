@@ -5,6 +5,96 @@ import RegisterRepository from "../repository/prod/RegisterRepository";
 import DefaultOperationOutput from "./DTOs/DefaultOperationStatus";
 import ListRegistersByCondominioInput from "./DTOs/InputListRegistersByCondominio";
 import ListRegistersByCondominioOutput from "./DTOs/OutputListRegistersByCondominio";
+import Register from "../entities/Register";
+
+function resolveAggregations(
+  registerArray: Array<Register>,
+  dateLabel: String,
+  inverterLabel: String,
+  condominioId: String
+): Register {
+  const finalReg: Map<string, Number | Array<number>> = new Map();
+
+  const aggAverage = (input: Array<number>): Number =>
+    input.reduce((a, b) => a + b, 0) / input.length;
+
+  [
+    "avg_dc_voltage",
+    "avg_dc_current",
+    "avg_dc_input_power",
+    "max_dc_voltage",
+    "max_dc_current",
+    "max_dc_input_power",
+    "min_dc_voltage",
+    "min_dc_current",
+    "min_dc_input_power",
+    "avg_ac_voltage",
+    "avg_ac_current",
+    "avg_ac_output_power",
+    "max_ac_voltage",
+    "max_ac_current",
+    "max_ac_output_power",
+    "min_ac_voltage",
+    "min_ac_current",
+    "min_ac_output_power",
+    "avg_generation",
+    "max_generation",
+    "min_generation",
+    "avg_temperature",
+    "max_temperature",
+    "min_temperature",
+  ].forEach((key) => {
+    finalReg.set(
+      key,
+      registerArray.map((reg) => {
+        const obj = reg.toObject();
+        type ObjectKey = keyof typeof obj;
+        const myKey = key as ObjectKey;
+        return Number(obj[myKey]);
+      })
+    );
+  });
+
+  finalReg.forEach((reg, key) => {
+    const keyType = key.slice(0, 3);
+    switch (keyType) {
+      case "avg":
+        finalReg.set(key, Array.isArray(reg) ? aggAverage(reg) : reg);
+        break;
+      case "min":
+        finalReg.set(key, Array.isArray(reg) ? Math.min(...reg) : reg);
+        break;
+      case "max":
+        finalReg.set(key, Array.isArray(reg) ? Math.max(...reg) : reg);
+        break;
+    }
+  });
+
+  const regObj = Array.from(finalReg).reduce(
+    (obj, [key, value]) => Object.assign(obj, { [key]: value }),
+    {
+      date: dateLabel,
+      condominio_id: condominioId,
+      inverter_id: inverterLabel,
+    }
+  );
+
+  return new Register(regObj as Omit<Register, "id" | "toObject">);
+}
+
+function aggByDay(
+  registerArray: Array<Register>,
+  condominioId: String
+): Array<Register> {
+  const aggRegisters: Array<Register> = [];
+  [...new Set(registerArray.map((reg) => reg.date))].forEach((day) => {
+    const regsByDay = registerArray.filter((reg) => reg.date === day);
+
+    aggRegisters.push(resolveAggregations(regsByDay, day, "all", condominioId));
+  });
+
+  return aggRegisters;
+}
 
 export default class ListRegister implements IUseCase {
   private registerRepository: IRegisterRepository;
@@ -22,8 +112,10 @@ export default class ListRegister implements IUseCase {
           data.condominioId
         );
 
+        const aggRegisters = aggByDay(allRegisters, data.condominioId);
+
         resolve({
-          data: allRegisters.sort(
+          data: aggRegisters.sort(
             (a, b) =>
               new Date(a.date.valueOf()).getTime() -
               new Date(b.date.valueOf()).getTime()
