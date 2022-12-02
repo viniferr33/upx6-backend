@@ -18,6 +18,11 @@ export default class DeleteUser implements IUseCase {
         const user = await this.userRepository.findById(data.id);
         if (!user) throw new Error("Usuario não existe!");
 
+        if (user.condominios && user.condominios.length !== 0)
+          throw new Error(
+            "Usuario possui condominios! Remova-o dos condominios antes de excluir!"
+          );
+
         await this.userRepository.delete(user);
         resolve({ failed: false, message: "User deletado!" });
       } catch (error) {

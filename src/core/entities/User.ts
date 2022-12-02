@@ -8,6 +8,7 @@ export default class User {
   public avatarUrl: String;
   public principals: String;
   public password: String;
+  public condominios?: Array<String>;
 
   constructor(props: Omit<User, "id" | "toObject">, id?: String) {
     this.name = props.name;
@@ -15,6 +16,7 @@ export default class User {
     this.avatarUrl = props.avatarUrl;
     this.principals = props.principals;
     this.password = props.password;
+    this.condominios = props.condominios ? props.condominios : [];
 
     if (!id) {
       this.id = uuid();
@@ -30,6 +32,7 @@ export default class User {
       avatarUrl: this.avatarUrl,
       principals: this.principals,
       password: this.password,
+      condominios: this.condominios,
     };
   }
 }

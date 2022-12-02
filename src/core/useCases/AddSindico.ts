@@ -33,6 +33,11 @@ export default class AddSindico implements IUseCase {
         condominio.sindicos.push(user.id);
         await this.condominioRepository.save(condominio);
 
+        if (user.condominios) {
+          user.condominios.push(condominio.id);
+          await this.userRepository.save(user);
+        }
+
         resolve({ failed: false, message: "Usuario adicionado como Sindico!" });
       } catch (error) {
         const err = new Error(String(error));

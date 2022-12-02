@@ -5,6 +5,7 @@ interface User {
   avatarUrl: String;
   principals: String;
   password: String;
+  condominios?: Array<String>;
 }
 
 export default interface ListUserOutput {

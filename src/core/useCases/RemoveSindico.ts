@@ -34,7 +34,16 @@ export default class RemoveSindico implements IUseCase {
         condominio.sindicos.splice(indexOfUser, 1);
         await this.condominioRepository.save(condominio);
 
-        resolve({ failed: false, message: "Usuario removido da lista de sindicos!" });
+        if (user.condominios) {
+          const indexOfCondominio = user.condominios.indexOf(data.condominioId);
+          user.condominios.splice(indexOfCondominio, 1);
+          await this.userRepository.save(user);
+        }
+
+        resolve({
+          failed: false,
+          message: "Usuario removido da lista de sindicos!",
+        });
       } catch (error) {
         const err = new Error(String(error));
         resolve({ failed: true, message: err.message, stackTrace: err.stack });
