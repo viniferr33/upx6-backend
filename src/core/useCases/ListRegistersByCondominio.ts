@@ -22,7 +22,13 @@ export default class ListRegister implements IUseCase {
           data.condominioId
         );
 
-        resolve({ data: allRegisters });
+        resolve({
+          data: allRegisters.sort(
+            (a, b) =>
+              new Date(a.date.valueOf()).getTime() -
+              new Date(b.date.valueOf()).getTime()
+          ),
+        });
       } catch (error) {
         const err = new Error(String(error));
         resolve({ failed: true, message: err.message, stackTrace: err.stack });
