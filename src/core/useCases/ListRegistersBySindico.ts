@@ -8,6 +8,8 @@ import Register from "../entities/Register";
 import ListRegistersBySindicoInput from "./DTOs/InputListRegistersBySindico";
 import UserRepository from "../repository/prod/UserRepository";
 import IUserRepository from "../repository/IUserRepository";
+import ICondominioRepository from "../repository/ICondominioRepository";
+import CondominioRepository from "../repository/prod/CondominioRepository";
 
 function resolveAggregations(
   registerArray: Array<Register>,
@@ -87,10 +89,12 @@ function resolveAggregations(
 export default class ListRegister implements IUseCase {
   private registerRepository: IRegisterRepository;
   private usersRepository: IUserRepository;
+  private condominioRepository: ICondominioRepository;
 
   constructor(private database: IDatabaseNoSQL) {
     this.registerRepository = new RegisterRepository(database);
     this.usersRepository = new UserRepository(database);
+    this.condominioRepository = new CondominioRepository(database);
   }
 
   execute(
@@ -104,6 +108,11 @@ export default class ListRegister implements IUseCase {
         if (!user) throw new Error("Usuario não existe!");
 
         const allRegisters: Array<Register> = [];
+
+        if (user.principals === "ADMIN") {
+          const allConds = await this.condominioRepository.list();
+          user.condominios = allConds.map((cond) => cond.id);
+        }
 
         if (user.condominios) {
           user.condominios.forEach(async (cond) => {

@@ -1,5 +1,4 @@
-import { credential } from "firebase-admin";
-import { initializeApp } from "firebase-admin/app";
+import { applicationDefault, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import IDatabaseNoSQL from "../../../interfaces/IDatabaseNoSQL";
 import {
@@ -14,7 +13,7 @@ export default class Firebase implements IDatabaseNoSQL {
 
   constructor() {
     const application = initializeApp(
-      { credential: credential.cert(require("./serviceAccountKey.json")) },
+      { credential: applicationDefault() },
       "Firebase"
     );
 
