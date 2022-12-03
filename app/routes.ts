@@ -15,6 +15,8 @@ import ListRegistersByCondominioController from "./controllers/ListRegistersByCo
 import ListRegistersByCondominioSumController from "./controllers/ListRegistersByCondominioSum";
 import ListRegistersByCondominioMonthController from "./controllers/ListRegistersByCondominioMonth";
 import ListRegistersBySindicoController from "./controllers/ListRegistersBySindico";
+import ListRegistersBySindicoDayController from "./controllers/ListRegistersBySindicoDay";
+import ListRegistersBySindicoMonthController from "./controllers/ListRegistersBySindicoMonth";
 
 // infra setup
 const firestore = new Firebase();
@@ -35,6 +37,8 @@ const allControllers = [
   ListRegistersByCondominioSumController,
   ListRegistersByCondominioMonthController,
   ListRegistersBySindicoController,
+  ListRegistersBySindicoDayController,
+  ListRegistersBySindicoMonthController,
 ];
 
 // Router setup
