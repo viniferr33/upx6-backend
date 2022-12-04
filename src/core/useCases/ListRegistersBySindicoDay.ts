@@ -129,10 +129,10 @@ export default class ListRegister implements IUseCase {
         }
 
         if (user.condominios) {
-          user.condominios.forEach(async (cond) => {
+          for (let cond of user.condominios) {
             const temp = await this.registerRepository.list(cond);
             allRegisters.push(...temp);
-          });
+          }
         }
 
         const aggRegisters = aggByDay(allRegisters, "all");
